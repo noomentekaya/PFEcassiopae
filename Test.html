@@ -1,0 +1,36 @@
+<html>
+	<head><title>test</title></head>
+<body>
+<form name="" action="" method="post">
+  <table border="0" width="100%">
+    <tbody id="inputtable">
+      <tr><td><input type="text" name="inputbox[]" /></td></tr>
+    </tbody>
+  </table>
+
+  <table border="0" width="100%">
+    <tr>
+   <td><input type="button" value="Add Inputbox" onclick="addRow();" /></td>
+    </tr>
+
+ </table>
+ <script type="text/javascript">
+ function addRow()
+ {
+     tabBody=document.getElementById("inputtable");
+  row=document.createElement("TR");
+    cell1 = document.createElement("TD");
+    textnode1=document.createElement("input");
+    textnode1.name="inputbox[]";
+    textnode1.type="text";
+   
+    cell1.appendChild(textnode1);
+    row.appendChild(cell1);
+    tabBody.appendChild(row);
+
+}
+
+</script>
+</form>
+</body>
+</html>
