@@ -18,7 +18,7 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body >
     <div class="container">
         Start doing your next awesomeness here.
         
@@ -37,7 +37,10 @@
     <script src="js/libs/flatui-radio.js"></script>
     <script src="js/libs/jquery.tagsinput.js"></script>
     <script src="js/libs/jquery.placeholder.js"></script>
-  
+  	<script src="js/libs/json2.js"></script>
+  	
+  	<script src="js/libs/backbone.js"></script>
+  	<script src="js/libs/underscore.js"></script>
   <nav class="navbar navbar-default" role="navigation">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
@@ -72,20 +75,143 @@
   </div><!-- /.navbar-collapse -->
 </nav><!-- /navbar -->
 <div id="add_actor">
-	
-	<div align="center"><input type="text" placeholder="name" class="form-control-lg" id="name"/></div>
-		<div align="center"><input type="date" placeholder="date" class="form-control-lg" id="date" /></div>
-		<div align="center"><input type="text" placeholder="company" class="form-control-lg" id="company"/></div>
-		<div align="center"><input type="text" placeholder="password" class="form-control-lg" id="lease" /></div>
+	<form id="actform">
+		<div align="center" ><input type="text" placeholder="actcapital" class="form-control-lg" name="actcapital"/></div>
+		<div align="center"><input type="text" placeholder="actchannel" class="form-control-lg" name="actchannel" /></div>
+		<div align="center"><input type="text" placeholder="actcode" class="form-control-lg" name="actcode"/></div>
+		<div align="center"><input type="text" value="RC" placeholder="actcodercm" class="form-control-lg" name="actcodercm" /></div>
+				<div align="center"><input type="date" placeholder="actdtcreat" class="form-control-lg" id="actdtcreat" /></div>
+		<div align="center"><input type="date" placeholder="actdtdebnaf" class="form-control-lg" name="actdtdebnaf" /></div>
+		<div align="center"><input type="date" placeholder="actdtimmatriculation" class="form-control-lg" name="actdtimmatriculation" /></div>
+		<div align="center"><input type="number" placeholder="acteffectif" class="form-control-lg" name="acteffectif" /></div>
+		<div align="center"><input type="number" placeholder="actfinmoisfisc" class="form-control-lg" name="actfinmoisfisc" /></div>
+		<div align="center"><input type="number" placeholder="actflagagrement" class="form-control-lg" name="actflagagrement" /></div>
+		<div align="center"><input type="number" placeholder="actflaggroupe" class="form-control-lg" name="actflaggroupe" /></div>
+		<div align="center"><input type="number" placeholder="actflagnondeclassable" class="form-control-lg" name="actflagnondeclassable" /></div>
+		<div align="center"><input type="number" placeholder="actflagtaxprof" class="form-control-lg" name="actflagtaxprof" /></div>
+		<div align="center"><input type="text" placeholder="actlibcheque" class="form-control-lg" name="actlibcheque" /></div>
+		<div align="center"><input type="text" placeholder="actlibcourt" class="form-control-lg" name="actlibcourt" /></div>
+		<div align="center"><input type="text" placeholder="actmemo" class="form-control-lg" name="actmemo" /></div>
+		<div align="center"><input type="text" placeholder="actnom" class="form-control-lg" name="actnom" /></div>
+				<div align="center"><input type="text" placeholder="actnom2" class="form-control-lg" name="actnom2" /></div>
+		<div align="center"><input type="text" placeholder="actnumrcm" class="form-control-lg" name="actnumrcm" /></div>
+		<div align="center"><input type="text" placeholder="actrattachement" class="form-control-lg" name="actrattachement" /></div>
+		<div align="center"><input type="text" placeholder="actregimetva" class="form-control-lg" name="actregimetva" /></div>
+		
+		<div align="center"><input type="text" placeholder="actsiret" class="form-control-lg" name="actsiret" /></div>
+		<div align="center"><input type="text" placeholder="acttvace" class="form-control-lg" name="acttvace" /></div>
+		<div align="center"><input type="text" placeholder="cjucode" value="5410" class="form-control-lg" name="cjucode" /></div>
+		<div align="center"><input type="text" placeholder="devcode" value="EUR" class="form-control-lg" name="devcode" /></div>
+
+		<div align="center"><input type="text" placeholder="lancode" value ="FR"class="form-control-lg" name="lancode" /></div>
+
+
+		<div align="center"><input type="text" placeholder="paycode" value="FR" class="form-control-lg" name="paycode" /></div>
+		<div align="center"><input type="text" placeholder="paycodecatjuridique"value="FR" class="form-control-lg" name="paycodecatjuridique" /></div>
+
+		<div align="center"><input type="text" placeholder="ugecode" class="form-control-lg" value="_ORIG_" name="ugecode" /></div>
+
+</form>
+
+
+
+
 		<div align="center">
-			<button class="btn btn-primary" >
+			<button class="btn btn-primary" onclick="config()" >
   proceed
 </button>
 		</div>
 		<div align="center" ><button  class="btn btn-danger">
   reset
 </button></div>
-	</div>
+
+</div>
+	<script type="text/javascript">
+	function config() {
+		var json;
+		 jsonObj = [];
+    $("#add_actor").find('input').each(function() {
+        var child = $(this);
+        console.log(child.length);
+       console.log($('#add_actor').children().size());
+         
+        //item={};
+         var field = $(this).attr("name");
+        var value = $(this).val();
+        console.log(field +""+value);
+       
+            
+            //console.log(child.val());
+            //var field = $(this);*/
+            console.log($(this).attr('name'));
+            console.log($(this).val());
+            var jArray = new Array();
+			  console.log( $( '#actform' ).serializeArray() );
+				json = 	$( '#actform' ).serializeArray();
+				//var frm = $(document.actform);
+ 				//var data = JSON.stringify(frm.serializeArray());
+ 				//console.log(data);
+   				//jArray.put(json);
+   				
+       				
+
+   	//			var obj= new Object();
+   				
+   				console.log(json);
+   				
+});
+var actid=0;
+   				  var o = {};
+   				  var local ={};
+    			var a = $( '#actform' ).serializeArray();
+    			$.each(a, function() {
+        		if (o[this.name] !== undefined) {
+            	if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            	}
+            	o[this.name].push(this.value || '');
+        		} 		
+        		else {
+            	o[this.name] = this.value || '';
+        	}
+    });
+    console.log(o);
+    
+   				
+					
+    			var t=localStorage.length;
+    			//actid=actid+1;
+				var i=0;
+				while (i<=t){
+	console.log(localStorage.getItem("actor1"));
+	if((localStorage.getItem("actor"+i))==null||(localStorage.getItem("actor"+i))==undefined){
+		console.log("inside storage");
+		i=i+1;
+	};
+	
+}
+				console.log(i);
+   
+    local=o;
+   console.log(local);
+   
+    localStorage.setItem('actor'+i, JSON.stringify(local)); 
+       					   			
+ return o;
+//console.log(results);            
+  /*var inputs = $("form :input");
+var obj = $.map(inputs, function(x, y) {
+	var x = x.name;
+	console.log(x);
+    return {
+       Key : x.name,
+        Value: $(x).val()
+    };
+});
+
+console.log(obj);*/
+}
+</script>
 </body>
 
 </html>

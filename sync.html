@@ -28,7 +28,7 @@
 }
 </script>
   </head>
-  <body onload="alert()">
+  <body onload="load()">
     <div class="container">
     </div>
     <!-- /.container -->
@@ -45,7 +45,110 @@
     <script src="js/libs/flatui-radio.js"></script>
     <script src="js/libs/jquery.tagsinput.js"></script>
     <script src="js/libs/jquery.placeholder.js"></script>
-  
+  <style type="text/css">
+
+	
+	
+	
+	table, caption, tbody, tfoot, thead, tr, th, td {
+		margin:0;
+		padding:0;
+		border:0;
+		outline:0;
+		font-size:100%;
+		vertical-align:baseline;
+		background:transparent;
+	}
+	
+	body {
+		margin:0;
+		padding:0;
+		font:12px/15px "Helvetica Neue",Arial, Helvetica, sans-serif;
+		color: #555;
+		background:#f5f5f5 url(bg.jpg);
+	}
+	
+	a {color:#666;}
+	
+	#content {width:65%; max-width:690px; margin:6% auto 0;}
+	
+	/*
+	Pretty Table Styling
+	CSS Tricks also has a nice writeup: http://css-tricks.com/feature-table-design/
+	*/
+	
+	table {
+		overflow:hidden;
+		border:1px solid #d3d3d3;
+		background:#fefefe;
+		width:70%;
+		margin:5% auto 0;
+		-moz-border-radius:5px; /* FF1+ */
+		-webkit-border-radius:5px; /* Saf3-4 */
+		border-radius:5px;
+		-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	}
+	
+	th, td {padding:18px 28px 18px; text-align:center; }
+	
+	th {padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
+	
+	td {border-top:1px solid #e0e0e0; border-right:1px solid #e0e0e0;}
+	
+	tr.odd-row td {background:#f6f6f6;}
+	
+	td.first, th.first {text-align:left}
+	
+	td.last {border-right:none;}
+	
+	/*
+	Background gradients are completely unnecessary but a neat effect.
+	*/
+	
+	td {
+		background: -moz-linear-gradient(100% 25% 90deg, #fefefe, #f9f9f9);
+		background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f9f9f9), to(#fefefe));
+	}
+	
+	tr.odd-row td {
+		background: -moz-linear-gradient(100% 25% 90deg, #f6f6f6, #f1f1f1);
+		background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f1f1f1), to(#f6f6f6));
+	}
+	
+	th {
+		background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
+		background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#ededed), to(#e8eaeb));
+	}
+	
+	/*
+	I know this is annoying, but we need additional styling so webkit will recognize rounded corners on background elements.
+	Nice write up of this issue: http://www.onenaught.com/posts/266/css-inner-elements-breaking-border-radius
+	
+	And, since we've applied the background colors to td/th element because of IE, Gecko browsers also need it.
+	*/
+	
+	tr:first-child th.first {
+		-moz-border-radius-topleft:5px;
+		-webkit-border-top-left-radius:5px; /* Saf3-4 */
+	}
+	
+	tr:first-child th.last {
+		-moz-border-radius-topright:5px;
+		-webkit-border-top-right-radius:5px; /* Saf3-4 */
+	}
+	
+	tr:last-child td.first {
+		-moz-border-radius-bottomleft:5px;
+		-webkit-border-bottom-left-radius:5px; /* Saf3-4 */
+	}
+	
+	tr:last-child td.last {
+		-moz-border-radius-bottomright:5px;
+		-webkit-border-bottom-right-radius:5px; /* Saf3-4 */
+	}
+
+</style>
   <nav class="navbar navbar-default" role="navigation">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
@@ -79,28 +182,127 @@
     </form>
   </div><!-- /.navbar-collapse -->
 </nav><!-- /navbar -->
-<table border="2">
-	<tr>
-		<td>some random json objects</td>
-		<td><div class="switch switch-square"
-  data-on-label="<i class='fui-check'></i>"
-  data-off-label="<i class='fui-cross'></i>">
-  <input type="checkbox" id="valid_sync" />
-</div></label></td>
-	</tr>
+<table border="2" id="sync">
+	
+		<th>data</th>
+		<th>sync</th>
+	
 	<p class="mbl">
-	<tr>
-           <td> <button class="btn btn-wide btn-primary mrm"onclick="save()">Save</button></td>
+	
            <script>
+           function load(){
+           	var tr ;
+           
+           	console.log(localStorage.length);
+           	for (var i =0 ;i<=localStorage.length;i++){
+           			tr = $('<tr>');
+           		//var retrievedObject = localStorage.getItem('acteur1');
+           		console.log(JSON.parse(localStorage.getItem('actor1')));
+           		var row =JSON.parse(localStorage.getItem('actor'+i));
+           	 tr.append("<td>" + localStorage.getItem("actor"+i) + "</td>");
+           	 
+           	 //tr.append("<div class="+"switch switch-square"+"data-on-label="+"<i class='fui-check'></i>"+"data-off-label="+"<i class='fui-cross'></i>"+">");
+           	 tr.append("<td><input type="+"checkbox"+" id="+"valid_sync"+" ></td>");
+           	 
+           	 tr.append("</tr>");
+           	  $('table#sync').append(tr);
+           	 }
+           	 tr=$('<tr>');
+           	
+			
+			
+			//tr.append("</tr>");
+			//tr.append("<tr>");
+			
+			
+           };
+          // function check(){
+          	$(document).ready(function(){
+         $("#valid_sync").click( function(){
+   if( $(this).is(':checked') ) {
+
+        //Do stuff
+        	var acteur ;
+           		var checked ;
+           		table.find('tr').each(function (i, el) {
+        var $tds = $(this).find('td'),
+            acteur = $tds.eq(i).text();
+            //checked = $tds.eq($('#valid_sync')).val();
+            	console.log(acteur);
+            console.log(checked);
+            
+        // do something with productId, product, Quantity
+    });
+
+
+             };
+            });
+           });
            	function save(){
+           		
+           	
            		if(confirm('sync data to server ?')){
-alert('sync in process');}
+alert('sync in process');
+var acteur ;
+var objserver ;
+           		var checked ;
+           		var table =$('#sync');
+           		table.find('tr').each(function (i, el) {
+        var $tds = $(this).find('td'),
+            acteur = $tds.eq(0).text();
+              if (checked =$(this).find("input[type=checkbox]").is(":checked")){
+             	//if($('#valid_sync').is(":checked")){
+              	objserver = $.parseJSON(acteur);
+              	console.log(objserver);
+              }
+            	//console.log(acteur);
+           // console.log(checked);
+            });
+            
+            console.log(JSON.stringify(objserver));
+            console.log($.type(objserver));
+            var objst=JSON.stringify(objserver);
+					
+$.ajax({	
+        		type: 'POST',
+        		url: 'http://localhost:8080/tn.com.esprit.Cassiopae.web/Acteur',
+        		contentType: 'application/json',
+        		// works !contentType:'application/x-www-form-urlencoded',
+        		//works !data:'id=ORFI&pwd=ORFIORFI' ,
+				data: objst, 
+				dataType: "json",
+        		//data: {id:'ORFI',pwd:'ORFIORFI'},
+        		       //	dataType: 'jsonp',
+         		xhrFields: {
+   			 	withCredentials: false
+  							},
+		 		headers: {
+		 		"Access-Control-Allow-Origin": [ "http://localhost:8020","*"]
+   				},
+
+       			 success: function(response){
+        		console.log("success");
+        	 	console.log(response);
+        	 	//$( "#" ).load( "template.html" );
+        	 	
+        		},
+        
+    			});		       	
+}
 else{ alert('next time..');}
            	}
+           	
+           	
            </script>
-           <td> <button class="btn btn-wide btn-default" >Cancel</button></td>
+           
           </p>
-          </tr>
+         
 </table>
+<div align="center"><button class="btn btn-wide btn-primary mrm" onclick="save()">Save</button></div>
+<div align="center"><button class="btn btn-wide btn-default">Cancel</button></div>
+			
+		
+			
+		
 </body>
 </html>

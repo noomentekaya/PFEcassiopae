@@ -20,7 +20,7 @@
     <![endif]-->
   </head>
   
-  <body onload="showdata()">
+  <body onload="showdata(),showdatalocal()">
     <div class="container">
         Start doing your next awesomeness here.
         
@@ -100,25 +100,148 @@
   	
   </script>
   <div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span></button>
+  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">criteria<span class="caret"></span></button>
   <span class="dropdown-arrow"></span>
   <ul class="dropdown-menu" id="dropcriteria">
-    <li><a href="#fakelink" value="uticode">uticode</a></li>
-    <li><a href="#fakelink" value="grocode">grocode</a></li>
-    <li><a href="#fakelink" value="name">name</a></li>
+    <li><a href="#fakelink" id ="actcode"value="actcode">actcode</a></li>
+    <li><a href="#fakelink" id="actcapital" value="actcapital">actcapital</a></li>
+    <li><a href="#fakelink" id="actnom"value="name">actnom</a></li>
+	    <li><a href="#fakelink" id="lancode"value="lancode">lancode</a></li>
+    <li><a href="#fakelink" id="devcode"value="devcode">devcode</a></li>
+    <li><a href="#fakelink" id="ugecode"value="ugecode">ugecode</a></li>
+    
+    
   </u>
 </div>
-   <table border="0" width="100%">
+   <table border="0" width="100%" id="crit">
     <tbody id="inputtable1">
-      <tr><td><button class="btn btn-primary" id ="filter" onclick="addRow()">
-  add Search criteria
-</button></td></tr>
+    	<form id="filt">
+      
+	</form>
     </tbody>
   </table>
-  
+  <div><button class="btn btn-primary" id ="filte" onclick="addRow()">
+  add Search criteria
+</button></div>
+  <div align="center" id="divfil"> <tr><td><button class="btn btn-primary" id="fil" onclick="filtrer()">
+  filter 
+</button> </div>
+
 <script type="text/javascript">
+function filtrer(){
+	
+var inp =$('#inputtable1').find('input');
+console.log(inp);
+var o = {};
+var crit={};
+$.each(inp,function(){
+	if (o[this.name] !== undefined) {
+            	if (!o[this.name].push) {
+                o[this.id] = [o[this.id]];
+            	}
+            	o[this.id].push(this.value || '');
+        		} 		
+        		else {
+            	o[this.id] = this.value || '';
+        	};
+	//var id =((inp));
+	console.log(o);
+});
+crit = o ;
+ var objst=JSON.stringify(crit);
+console.log(crit+" "+objst);
+ $("table#act").find("tr:gt(0)").remove();
+$.ajax({	
+        		type: 'POST',
+        		url: 'http://localhost:8080/tn.com.esprit.Cassiopae.web/Acteur/filter',
+        		contentType: 'application/json',
+        		// works !contentType:'application/x-www-form-urlencoded',
+        		//works !data:'id=ORFI&pwd=ORFIORFI' ,
+				data: objst, 
+				dataType: "json",
+        		//data: {id:'ORFI',pwd:'ORFIORFI'},
+        		       //	dataType: 'jsonp',
+         		xhrFields: {
+   			 	withCredentials: false
+  							},
+		 		headers: {
+		 		"Access-Control-Allow-Origin": [ "http://localhost:8020","*"]
+   				},
+
+       			 success: function(response){
+        		console.log("success");
+        	 	console.log(response);
+        	 	var actObject = {};
+		console.log(response.length);
+		for (var j = 0, valuesLength = response.length; j < valuesLength; j++) {	
+		actObject[j] = response[j];
+		console.log(response[j]);
+		}
+		//this.push(actObject);  
+		var tr ;
+		console.log(response[0].actid);
+		//var data = JSON.parse(response);
+		//console.log(data);
+		//var data  = $.parseJSON(response);
+		console.log($.type(response));
+		for (var i = 0; i < response.length; i++) {
+		 tr = $('<tr/>');
+        tr.append("<td>" + response[i].actid + "</td>");
+        
+        tr.append("<td>" + response[i].actcapital + "</td>");
+        tr.append("<td>" + response[i].actchannel + "</td>");
+        tr.append("<td>" + response[i].actcode + "</td>");
+        tr.append("<td>" + response[i].actcodercm + "</td>");
+        tr.append("<td>" + response[i].actdtcreat + "</td>");
+        tr.append("<td>" + response[i].actdtdebnaf + "</td>");
+        tr.append("<td>" + response[i].actdtimmatriculation+ "</td>");
+        tr.append("<td>" + response[i].actdtmaj + "</td>");
+        tr.append("<td>" + response[i].acteffectif+ "</td>");
+        tr.append("<td>" + response[i].actfinmoisfisc + "</td>");
+        //tr.append("<td>" + response[i].actflagagrement+ "</td>");
+        tr.append("<td>" + response[i].actflaggroupe+ "</td>");
+        tr.append("<td>" + response[i].actflagnondeclassable+ "</td>");
+        tr.append("<td>" + response[i].actflagtaxprof+ "</td>");
+        tr.append("<td>" + response[i].actlibcheque + "</td>");
+        tr.append("<td>" + response[i].actlibcourt + "</td>");
+        tr.append("<td>" + response[i].actmemo + "</td>");
+        tr.append("<td>" + response[i].actnom + "</td>");
+        tr.append("<td>" + response[i].actnom2 + "</td>");
+        tr.append("<td>" + response[i].actnumrcm + "</td>");
+        tr.append("<td>" + response[i].actrattachement + "</td>");
+        tr.append("<td>" + response[i].actregimetva + "</td>");
+        tr.append("<td>" + response[i].actrepresentative + "</td>");
+        tr.append("<td>" + response[i].actsiret + "</td>");
+        tr.append("<td>" + response[i].acttvace + "</td>");
+        tr.append("<td>" + response[i].cjucode + "</td>");
+        tr.append("<td>" + response[i].devcode + "</td>");
+        tr.append("<td>" + response[i].domcode + "</td>");
+        tr.append("<td>" + response[i].lancode+ "</td>");
+        tr.append("<td>" + response[i].naccode + "</td>");
+        tr.append("<td>" + response[i].nafcode+ "</td>");
+        tr.append("<td>" + response[i].paycode + "</td>");
+		tr.append("<td>" + response[i].paycodecatjuridique + "</td>");
+        tr.append("<td>" + response[i].paycodenaf + "</td>");
+        tr.append("<td>" + response[i].ugecode + "</td>");
+         $('table#act').append(tr);
+        };
+        	 	//$( "#" ).load( "template.html" );
+        	 	
+        		},
+        		error:function(response){
+        			console.log(response);	
+        		}
+        
+    			});		       	
+
+return o ;
+				
+};
+    
+ 
 	/*$('document').ready(function() {
 	var  filter= new Array();
+	
 	
 	for (var i=0 ;i<=$('#tagsinput').length;i++){ 
 		filter[i]=$('#tagsinput').val();}
@@ -139,7 +262,7 @@ var i =0 ;
  	var  filter= new Array();
     
     filter=	$('#dropcriteria li').click(function() {
-    	 div=document.getElementById("inputtable");
+    div=document.getElementById("inputtable1");
      console.log(div);
      
      
@@ -167,6 +290,8 @@ var i =0 ;
     row.appendChild(cell1);
     div.appendChild(row);
     
+    		
+    
 });
 	
 	console.log(selected);
@@ -174,6 +299,7 @@ var i =0 ;
 	   
 	
     i++;
+    
 }
 
 </script>
@@ -295,10 +421,147 @@ var i =0 ;
 
 </style>
 	<table id="act" cellspacing="5" border="3">
+		<th>actid</th>
+		<th>actcapital</th>
+		<th>actchannel</th>
+		
+		<th>actcode</th>
+		<th>actcodercm</th>
+		<th>actdtcreat</th>
+		<th>actdtdebnaf</th>
+		
+		<th>actdtimmatriculation</th>
+		<th>actdtmaj</th>
+		<th>acteffectif</th>
+		
+		
+		<th>actfinmoisfisc,</th>
+		<th>actflaggroupe</th>
+		
+		<th>actflagnondeclassable</th>
+		<th>actflagtaxprof</th>
+		<th>actlibcheque</th>
+		<th>actlibcourt</th>
+		<th>actmemo</th>
+		<th>actnom</th>
+		<th>actnom2</th>
+		<th>actnumrcm</th>
+		
+		<th>actrattachement</th>
+		<th>actregimetva</th>
+		<th>actrepresentative</th>
+		
+		<th>actsiret</th>
+		<th>acttvace</th>
+		<th>cjucode</th>
+		<th>devcode</th>
+		<th>domcode</th>
+		<th>lancode</th>
+		<th>naccode</th>
+		<th>nafcode</th>
+		<th>paycode</th>
+		<th>paycodecatjuridique</th>
+		<th>paycodenaf</th>
+		<th>ugecode</th>
+		<th>infos</th>
 	<tr>
 	</table>
 
 <script type="text/javascript">
+function showdatalocal(){
+	 	var tr ;
+           
+           	console.log(localStorage.length);
+           	for (var i =1 ;i<=localStorage.length;i++){
+           		if (localStorage.getItem('actor'+i)!==null){
+           			tr = $('<tr>');
+           		//var retrievedObject = localStorage.getItem('acteur1');
+           		console.log(JSON.parse(localStorage.getItem('actor1')));
+           		var row =JSON.parse(localStorage.getItem('actor'+i));
+           		console.log(JSON.parse(localStorage.getItem('actor6')));
+           		rowtest =JSON.parse(localStorage.getItem('actor'+i));
+           		var capital =rowtest.actcapital;
+           		var actchannel = rowtest.actchannel;
+           		var actcode=  rowtest.actcode;
+           		 var actcodercm=rowtest.actcodercm;
+				var actdtdebnaf=rowtest.actdtdebnaf;
+				var actdtimmatriculation = rowtest.actdtimmatriculation;
+				var acteffectif = rowtest.acteffectif;
+				var actfinmoisfisc = rowtest.actfinmoisfisc;
+				var actflagagrement =rowtest.actflagagrement;
+				var actflaggroupe = rowtest.actflaggroupe;
+				var actflagnondeclassable = rowtest.actflagnondeclassable;
+				var actflagtaxprof = rowtest.actflagtaxprof;
+				var actlibcheque =rowtest.actlibcheque;
+				var actlibcourt=rowtest.actlibcourt;
+				var actmemo=rowtest.actmemo;
+				var actnom=rowtest.actnom;
+				var actnom2 = rowtest.actnom2;
+				var actnumrcm= rowtest.actnumrcm;
+				var actregimetva=rowtest.actregimetva;
+				var actrepresentative =rowtest.actrepresentative;
+				var actsiret =rowtest.actsiret;
+				var acttvace=rowtest.acttvace;
+				var cjucode=rowtest.cjucode;
+				var devcode=rowtest.devcode;
+				var domcode=rowtest.domcode;
+				var lancode =rowtest.lancode;
+				var naccode =rowtest.naccode;
+				var nafcode= rowtest.nafcode;
+				var paycode=rowtest.paycode;
+				var paycodecatjuridique=rowtest.paycodecatjuridique;
+				var paycodenaf=rowtest.paycodenaf;
+				var ugecode =rowtest.ugecode;
+           		
+           	 tr.append("<td>"+null +"</td>");
+           	 tr.append("<td>"+capital +"</td>");
+           	tr.append("<td>"+actchannel +"</td>");
+           	tr.append("<td>"+actcode+"</td>");
+			           	tr.append("<td>"+actcodercm+"</td>");
+			           	tr.append("<td>"+null+"</td>");
+	           	tr.append("<td>"+actdtdebnaf+"</td>");
+	           	tr.append("<td>"+null+"</td>");
+	           	tr.append("<td>"+actdtimmatriculation+"</td>");
+	           	tr.append("<td>"+null+"</td>");
+	           	tr.append("<td>"+acteffectif+"</td>");
+				tr.append("<td>"+actfinmoisfisc+"</td>");
+				tr.append("<td>"+actflaggroupe+"</td>");
+				tr.append("<td>"+actflagnondeclassable+"</td>");
+	           	tr.append("<td>"+actflagtaxprof+"</td>");
+	           	tr.append("<td>"+actlibcheque+"</td>");
+	           	tr.append("<td>"+actlibcourt+"</td>");
+	           	tr.append("<td>"+actmemo+"</td>");
+				tr.append("<td>"+actnom+"</td>");
+				tr.append("<td>"+actnom2+"</td>");
+				tr.append("<td>"+actnumrcm+"</td>");
+				
+				tr.append("<td>"+actregimetva+"</td>");
+				tr.append("<td>"+null+"</td>");
+				tr.append("<td>"+actsiret+"</td>");
+				tr.append("<td>"+acttvace+"</td>");
+				
+				tr.append("<td>"+cjucode+"</td>");
+				tr.append("<td>"+devcode+"</td>");
+				tr.append("<td>"+domcode+"</td>");
+				tr.append("<td>"+lancode+"</td>");
+				tr.append("<td>"+naccode+"</td>");
+				tr.append("<td>"+nafcode+"</td>");
+           	 tr.append("<td>"+paycode+"</td>");
+           	 tr.append("<td>"+paycodecatjuridique+"</td>");
+           	 tr.append("<td>"+paycodenaf+"</td>");
+           	 tr.append("<td>"+ugecode+"</td>");
+           	tr.append("</tr>");
+           	        tr.append("<td><input type="+"button"+" id="+"infos"+"  value="+"infos+"+"/> </td>");
+					 $('table#act').append(tr);
+           	 // $('table#sync').append(tr);
+           	 }
+           	}
+           	 //tr=$('<tr>');
+	
+	
+	
+};
+
 function showdata(){
 	    var Actor = Backbone.Model.extend({});
 		 var tr;
@@ -331,7 +594,6 @@ function showdata(){
         console.log(response[i][0]);
         tr.append("<td>" + response[i][1] + "</td>");
         tr.append("<td>" + response[i][2] + "</td>");
-        tr.append("<td>" + response[i][2] + "</td>");
         tr.append("<td>" + response[i][3] + "</td>");
         tr.append("<td>" + response[i][4] + "</td>");
         tr.append("<td>" + response[i][5] + "</td>");
@@ -361,6 +623,12 @@ function showdata(){
         tr.append("<td>" + response[i][29] + "</td>");
         tr.append("<td>" + response[i][30] + "</td>");
         tr.append("<td>" + response[i][31] + "</td>");
+        tr.append("<td>" + response[i][32] + "</td>");
+		tr.append("<td>" + response[i][33] + "</td>");
+        tr.append("<td>" + response[i][34] + "</td>");
+        
+
+       // tr.append("<td>" + response[i][32] + "</td>");
         tr.append("<td><input type="+"button"+" id="+"infos"+"  value="+"infos+"+"/> </td>");
         //tr.append("<td>" + response[i][2] + "</td>");
         $('table#act').append(tr);
@@ -414,7 +682,7 @@ function showdata(){
     var view = new actorListView();*/
 	var Territory = Backbone.Model.extend({});
 
-var Territories = Backbone.Collection.extend({
+/*var Territories = Backbone.Collection.extend({
   model: Territory,
   url: 'http://localhost:8080/tn.com.esprit.Cassiopae.web/Acteur/id'
 });
@@ -429,7 +697,7 @@ var territories = new Territories();
       orderSeparator: ''
     })
   
-}];
+}];*/
    
    // Initialize a new Grid instance
 
@@ -437,7 +705,7 @@ var territories = new Territories();
 	
 
 
-territories.fetch({
+/*territories.fetch({
 	success: function(response,xhr) {
 	console.log("Inside success");
 	console.log(response);
@@ -455,7 +723,7 @@ territories.fetch({
 	error: function (errorResponse) {
 	console.log(errorResponse);
 	},
-	reset: true});
+	reset: true});*/
 
 	act.fetch({
 	success: function(response,xhr) {
